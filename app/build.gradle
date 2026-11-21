@@ -15,6 +15,7 @@ def gitVersion = cmd.execute().text.trim().toInteger() + 100
 def appVersion = getDate()
 
 android {
+    namespace 'com.zfdang.mbb'
     compileSdk myCompileSdkVersion
 
     defaultConfig {
@@ -44,9 +45,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+    kotlinOptions { jvmTarget = '11' }
     buildFeatures {
         viewBinding true
     }
@@ -71,11 +73,7 @@ android {
     // http://www.sollyu.com/android-apk-studio-generated-automatically-appends-a-version-number/
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            if(buildType.name == "release") {
-                output.outputFileName = new File("mbb" + "-" + buildType.name + "-v" + defaultConfig.versionName + ".apk" );
-            } else {
-                output.outputFileName = new File("mbb" + "-" + buildType.name + "-v" + defaultConfig.versionName + ".apk" );
-            }
+            output.outputFileName = "mbb-${buildType.name}-v${defaultConfig.versionName}.apk"
         }
     }
 }
@@ -84,7 +82,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.databinding:databinding-runtime:7.3.1'
+    implementation 'androidx.databinding:databinding-runtime:8.2.1'
     implementation 'com.github.skydoves:colorpickerview:2.2.4'
     implementation 'com.github.moisoni97:IndicatorSeekBar:3.0.0'
 
